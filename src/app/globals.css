@@ -1,0 +1,497 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  min-height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f4f7f4;
+  padding: 0 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+button:hover {
+  border-color: rgba(31, 221, 184, 0.72);
+  background: rgba(31, 221, 184, 0.14);
+}
+
+.app-shell {
+  width: 100vw;
+  height: 100dvh;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  background: #050605;
+  color: #f4f7f4;
+}
+
+.app-header {
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #080a09;
+}
+
+.brand-block {
+  min-width: 190px;
+}
+
+.brand-kicker {
+  display: block;
+  color: #21ddb8;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand-block h1 {
+  margin: 2px 0 0;
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.quick-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.quick-actions button {
+  flex: 0 0 auto;
+}
+
+.speak-button,
+.run-button {
+  border-color: rgba(255, 201, 71, 0.7);
+  background: #ffc947;
+  color: #11140f;
+  font-weight: 700;
+}
+
+.speak-button:hover,
+.run-button:hover {
+  background: #f4b929;
+  border-color: #ffe49a;
+}
+
+.command-panel {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.32fr) minmax(260px, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 12px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #11140f;
+}
+
+.command-copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.command-copy strong {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.command-copy span {
+  color: #aeb8aa;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.command-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  min-width: 0;
+}
+
+.command-row input {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  border: 1px solid rgba(31, 221, 184, 0.45);
+  border-radius: 8px;
+  background: #070807;
+  color: #ffffff;
+  padding: 0 14px;
+  outline: none;
+}
+
+.command-row input:focus {
+  border-color: #21ddb8;
+  box-shadow: 0 0 0 3px rgba(31, 221, 184, 0.16);
+}
+
+.scene-viewport {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  background: #000000;
+}
+
+.scene-viewport canvas {
+  display: block;
+}
+
+.scene-status {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  width: min(440px, calc(100% - 36px));
+  max-height: 36%;
+  overflow: hidden;
+  border: 1px solid rgba(31, 221, 184, 0.46);
+  border-radius: 8px;
+  background: rgba(4, 8, 7, 0.74);
+  color: #f4f7f4;
+  padding: 12px;
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(4, auto auto);
+  gap: 6px 8px;
+  align-items: center;
+  color: #9da89a;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.status-grid strong {
+  color: #21ddb8;
+  font-size: 11px;
+}
+
+.scene-status p {
+  margin: 10px 0 0;
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.viewport-hint {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100% - 40px);
+  border-radius: 8px;
+  background: rgba(4, 8, 7, 0.64);
+  color: #ffffff;
+  padding: 8px 12px;
+  font-size: 12px;
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gesture-widget {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  width: 154px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(4, 8, 7, 0.72);
+  padding: 8px;
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+}
+
+.gesture-widget video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  opacity: 0.78;
+}
+
+.gesture-widget div {
+  margin-top: 6px;
+  color: #21ddb8;
+  font-size: 12px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.training-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow: auto;
+  background: #050605;
+}
+
+.training-shell {
+  width: 100%;
+  min-height: 100%;
+  background: #050605;
+  color: #f4f7f4;
+}
+
+.training-header {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #080a09;
+}
+
+.training-header h1 {
+  margin: 2px 0 0;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.training-tabs {
+  display: flex;
+  gap: 10px;
+  padding: 18px 24px 0;
+}
+
+.training-tabs button {
+  min-width: 120px;
+}
+
+.training-feedback {
+  max-width: 980px;
+  margin: 14px 24px 0;
+  color: #21ddb8;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.active-tab {
+  border-color: rgba(31, 221, 184, 0.85);
+  background: rgba(31, 221, 184, 0.18);
+}
+
+.training-panel {
+  display: grid;
+  gap: 16px;
+  max-width: 980px;
+  margin: 18px 24px 32px;
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: #0d100c;
+}
+
+.training-panel h2,
+.training-panel h3 {
+  margin: 0;
+}
+
+.training-panel p {
+  margin: 0;
+  color: #aeb8aa;
+  line-height: 1.5;
+}
+
+.training-panel label {
+  display: grid;
+  gap: 8px;
+  color: #d7ddd4;
+  font-weight: 700;
+}
+
+.training-panel input {
+  min-height: 42px;
+  border: 1px solid rgba(31, 221, 184, 0.45);
+  border-radius: 8px;
+  background: #070807;
+  color: #ffffff;
+  padding: 0 14px;
+  outline: none;
+}
+
+.training-panel input:focus {
+  border-color: #21ddb8;
+  box-shadow: 0 0 0 3px rgba(31, 221, 184, 0.16);
+}
+
+.training-list {
+  display: grid;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.training-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.training-row span,
+.training-row strong {
+  overflow-wrap: anywhere;
+}
+
+.training-row strong {
+  color: #21ddb8;
+}
+
+.gesture-training-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.gesture-recorder {
+  min-height: 190px;
+  position: relative;
+}
+
+.gesture-recorder .gesture-widget {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  width: 100%;
+}
+
+.gesture-training-controls {
+  display: grid;
+  gap: 14px;
+}
+
+.recording-readout {
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #21ddb8;
+  padding: 12px;
+  overflow-wrap: anywhere;
+}
+
+.training-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .app-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .quick-actions {
+    justify-content: flex-start;
+  }
+
+  .command-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .app-header,
+  .command-panel {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .command-row {
+    grid-template-columns: 1fr;
+  }
+
+  .scene-status {
+    left: 12px;
+    bottom: 12px;
+    width: calc(100% - 24px);
+  }
+
+  .status-grid {
+    grid-template-columns: repeat(2, auto auto);
+  }
+
+  .gesture-widget {
+    display: none;
+  }
+
+  .gesture-recorder .gesture-widget {
+    display: block;
+  }
+
+  .viewport-hint {
+    top: 10px;
+  }
+}
+
+@media (max-width: 720px) {
+  .training-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .training-row,
+  .gesture-training-layout {
+    grid-template-columns: 1fr;
+  }
+}
